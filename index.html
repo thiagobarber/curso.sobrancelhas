@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Designer de Sobrancelhas de Sucesso</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #d4af37; /* Dourado Premium */
+            --bg-dark: #121212;
+            --card-bg: #1c1c1e;
+            --text-light: #f5f5f7;
+            --accent-pink: #ff758c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: radial-gradient(circle at 50% 20%, #2a2215 0%, #121212 70%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 550px;
+            background: var(--card-bg);
+            border: 1px solid #2c2c2e;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .quiz-screen {
+            display: none;
+        }
+
+        .quiz-screen.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Progresso */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #2c2c2e;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent-pink));
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 1.8rem;
+            line-height: 1.3;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        h1 span {
+            color: var(--primary);
+            background: linear-gradient(45deg, var(--primary), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p.subtitle {
+            color: #a1a1a6;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        /* Buttons & Options */
+        .btn-main {
+            background: linear-gradient(135deg, var(--primary) 0%, #b89326 100%);
+            color: #000;
+            border: none;
+            padding: 16px 32px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+        .btn-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .option-item {
+            background: #2c2c2e;
+            border: 2px solid transparent;
+            padding: 16px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            color: #e5e5ea;
+        }
+        .option-item:hover {
+            border-color: var(--primary);
+            background: #3a3a3c;
+        }
+
+        /* Loader */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- TELA 1: CAPA -->
+    <div id="screen-start" class="quiz-screen active">
+        <h1>Torne-se uma <span>Designer de Sobrancelhas</span> de Alto Faturamento</h1>
+        <p class="subtitle">Descubra se você tem o perfil ideal para faturar de R$ 2.000 a R$ 7.000 por mês trabalhando na área que mais cresce no Brasil.</p>
+        <button class="btn-main" onclick="nextScreen('screen-q1', 25)">INICIAR O TESTE GRATUITO ➔</button>
+    </div>
+
+    <!-- BARRA DE PROGRESSO (Aparece nas perguntas) -->
+    <div id="progress-container" style="display:none;">
+        <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+    </div>
+
+    <!-- PERGUNTA 1: DOR -->
+    <div id="screen-q1" class="quiz-screen">
+        <h1 style="font-size: 1.4rem; margin-bottom: 25px;">Qual é o seu maior obstáculo hoje para começar na área da beleza?</h1>
+        <div class="options-list">
+            <div class="option-item" onclick="nextScreen('screen-q2', 50)">Falta de dinheiro para investir em cursos caros</div>
+            <div class="option-item" onclick="nextScreen('screen-q2', 50)">Medo de não conseguir clientes ou de errar as técnicas</div>
+            <div class="option-item" onclick="nextScreen('screen-q2', 50)">Falta de tempo livre devido à rotina atual</div>
+            <div class="option-item" onclick="nextScreen('screen-q2', 50)">Não sei absolutamente nada por onde começar</div>
+        </div>
+    </div>
+
+    <!-- PERGUNTA 2: GANHO -->
+    <div id="screen-q2" class="quiz-screen">
+        <h1 style="font-size: 1.4rem; margin-bottom: 25px;">Quanto você deseja faturar por mês de forma realista trabalhando com sobrancelhas?</h1>
+        <div class="options-list">
+            <div class="option-item" onclick="nextScreen('screen-q3', 75)">De R$ 1.500 a R$ 3.000 (Uma ótima renda extra)</div>
+            <div class="option-item" onclick="nextScreen('screen-q3', 75)">De R$ 3.000 a R$ 5.000 (Para viver 100% disso)</div>
+            <div class="option-item" onclick="nextScreen('screen-q3', 75)">Mais de R$ 7.000 (Quero montar meu estúdio)</div>
+        </div>
+    </div>
+
+    <!-- PERGUNTA 3: DESIGN/OFERTA -->
+    <div id="screen-q3" class="quiz-screen">
+        <h1 style="font-size: 1.4rem; margin-bottom: 25px;">Para acelerar o seu sucesso, qual desses conhecimentos você considera mais urgente?</h1>
+        <div class="options-list">
+            <div class="option-item" onclick="startLoading()">Dominar o Mapeamento Facial e Design Perfeito</div>
+            <div class="option-item" onclick="startLoading()">Aprender a aplicação de Henna Profissional</div>
+            <div class="option-item" onclick="startLoading()">Saber como atrair e lotar a agenda de clientes rápidas</div>
+        </div>
+    </div>
+
+    <!-- TELA 4: CARREGAMENTO -->
+    <div id="screen-loading" class="quiz-screen">
+        <h1>Analisando seu perfil...</h1>
+        <p class="subtitle">Avaliando suas respostas com o mercado atual.</p>
+        <div class="loader"></div>
+    </div>
+
+    <!-- TELA 5: RESULTADO + CTA FINAL -->
+    <div id="screen-end" class="quiz-screen">
+        <h1 style="color: #4cd964;">✓ Perfil Aprovado!</h1>
+        <p class="subtitle" style="margin-bottom: 20px;">Você tem os requisitos necessários para ter sucesso na profissão.</p>
+        <p style="font-size: 0.95rem; line-height: 1.6; color: #e5e5ea; margin-bottom: 30px; text-align: left;">
+            Com base na sua análise, preparamos o método exato para você vencer suas dificuldades, dominar o <strong>Design Moderno</strong> e alcançar a meta de faturamento desejada sem precisar gastar rios de dinheiro.
+        </p>
+        <a href="https://go.hotmart.com/H106390564C" target="_blank" class="btn-main" style="text-align: center;">QUERO ACESSAR O CURSO E COMEÇAR HOJE ➔</a>
+    </div>
+
+</div>
+
+<script>
+    function nextScreen(screenId, progressPercentage) {
+        // Esconde todas as telas
+        document.querySelectorAll('.quiz-screen').forEach(screen => {
+            screen.classList.remove('active');
+        });
+        
+        // Mostra a barra de progresso após a primeira tela
+        if(screenId !== 'screen-start') {
+            document.getElementById('progress-container').style.display = 'block';
+        }
+        
+        // Ativa a próxima tela
+        document.getElementById(screenId).classList.add('active');
+        
+        // Atualiza a barra de progresso
+        document.getElementById('progress-fill').style.width = progressPercentage + '%';
+    }
+
+    function startLoading() {
+        nextScreen('screen-loading', 100);
+        document.getElementById('progress-container').style.display = 'none';
+        
+        // Simula 2.5 segundos de análise antes de ir para o CTA
+        setTimeout(() => {
+            nextScreen('screen-end', 100);
+        }, 2500);
+    }
+</script>
+</body>
+</html>
